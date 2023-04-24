@@ -4,7 +4,7 @@ export const environment = {
   version: "CI_COMMIT_SHA",
   firebase: {
     apiKey: "AIzaSyAH-Pxztgknf1CpeA-xgDgKW1jbCoMnxWA",
-    authDomain: "burofreunde.firebaseapp.com",
+    authDomain: "burofreunde.de",
     projectId: "burofreunde",
     storageBucket: "burofreunde.appspot.com",
     messagingSenderId: "763572478521",
