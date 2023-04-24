@@ -31,8 +31,8 @@
           class="px-2 border text-sm rounded-full"
           :class="[
             day.attendanceCount > 0
-              ? 'bg-teal-50 border-teal-500 text-teal-500'
-              : 'bg-indigo-50 border-indigo-500 text-indigo-500',
+              ? 'bg-teal-50 border-teal-500 text-teal-500 dark:bg-teal-400/10'
+              : 'bg-indigo-50 border-indigo-500 text-indigo-500 dark:bg-indigo-400/10',
           ]"
         >
           {{ day.attendanceCount }}

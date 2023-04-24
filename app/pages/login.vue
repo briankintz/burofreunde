@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>Bürofreunde - Login</Title>
+  </Head>
   <main
     class="min-w-full min-h-screen flex items-center justify-center bg-cover bg-center bg-splash"
   >
@@ -8,7 +11,7 @@
       <div
         class="max-w-sm flex flex-col gap-4 text-center md:text-lg text-base"
       >
-        <Logo class="mb-4" />
+        <Logo class="mb-4 logo-light" />
         <form class="flex flex-col gap-8" @submit.prevent="emailLogin($event)">
           <div class="-space-y-px">
             <label for="email" class="sr-only">Email</label>
@@ -64,6 +67,7 @@ const errorMessage = ref("");
 
 try {
   await getRedirectResult($auth);
+  await navigateTo("/");
 } catch (error) {
   handle(error);
 }

@@ -24,19 +24,20 @@
       Ich bin doch nicht da
     </ButtonSecondary>
 
-    <ButtonPrimaryOutline v-if="!data?.cake" @click="setCake(true)">
+    <ButtonPrimaryOutline v-if="data && !data.cake" @click="setCake(true)">
       <i class="fa-solid fa-cake-slice mr-2"></i>
       Ich bringe Kuchen mit!
     </ButtonPrimaryOutline>
 
-    <ButtonSecondaryOutline v-else @click="setCake(false)">
-      <i class="fa-solid fa-trash-xmark mr-2"></i>
+    <ButtonSecondaryOutline v-else-if="data" @click="setCake(false)">
+      <i class="fa-kit fa-regular-cake-slice-slash mr-2"></i>
       Ich bringe nichts mit
     </ButtonSecondaryOutline>
 
     <div>
       <label aria-hidden="true" for="message" class="hidden">Nachricht</label>
       <textarea
+        v-if="data"
         rows="2"
         name="message"
         id="message"
@@ -50,7 +51,6 @@
 </template>
 
 <script setup lang="ts">
-import { Attendee } from "@burofreunde/types";
 import {
   addDoc,
   collection,
