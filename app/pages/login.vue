@@ -8,7 +8,7 @@
       <div
         class="max-w-sm flex flex-col gap-4 text-center md:text-lg text-base"
       >
-        <Logo class="mb-4" />
+        <Logo class="mb-4 logo-light" />
         <form class="flex flex-col gap-8" @submit.prevent="emailLogin($event)">
           <div class="-space-y-px">
             <label for="email" class="sr-only">Email</label>
