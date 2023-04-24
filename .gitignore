@@ -21,5 +21,4 @@ firebase-debug.*.log*
 node_modules/
 
 # dotenv environment variables file
-app/environments/
 .env
