@@ -67,6 +67,7 @@ const errorMessage = ref("");
 
 try {
   await getRedirectResult($auth);
+  await navigateTo("/");
 } catch (error) {
   handle(error);
 }
