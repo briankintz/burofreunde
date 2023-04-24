@@ -30,7 +30,7 @@
     </ButtonPrimaryOutline>
 
     <ButtonSecondaryOutline v-else @click="setCake(false)">
-      <i class="fa-solid fa-trash-xmark mr-2"></i>
+      <i class="fa-kit fa-regular-cake-slice-slash mr-2"></i>
       Ich bringe nichts mit
     </ButtonSecondaryOutline>
 
