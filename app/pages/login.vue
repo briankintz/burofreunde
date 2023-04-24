@@ -32,13 +32,13 @@
               placeholder="Passwort"
             />
           </div>
-          <div>
-            <button
-              type="submit"
-              class="flex w-full justify-center rounded-lg border border-transparent bg-teal-500 py-2 px-4 font-medium text-white shadow-sm hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
+          <div class="flex flex-col gap-4">
+            <ButtonPrimary type="submit">Anmelden</ButtonPrimary>
+
+            <ButtonSecondary @click="microsoftLogin()"
+              ><i class="fa-brands fa-microsoft mr-2"></i> Mit Microsoft
+              anmelden</ButtonSecondary
             >
-              Anmelden
-            </button>
           </div>
         </form>
         <div
@@ -54,13 +54,18 @@
 
 <script setup lang="ts">
 import { FirebaseError } from "@firebase/util";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  signInWithRedirect,
+  OAuthProvider,
+} from "firebase/auth";
 
 definePageMeta({
   layout: "pre-auth",
 });
 
 const { $auth } = useNuxtApp();
+
 const route = useRoute();
 
 const errorMessage = ref("");
@@ -93,6 +98,12 @@ async function onSubmit(event: Event) {
       errorMessage.value = "Anmeldung fehlgeschlagen!";
     }
   }
+}
+
+function microsoftLogin() {
+  const provider = new OAuthProvider("microsoft.com");
+
+  return signInWithRedirect($auth, provider);
 }
 </script>
 
