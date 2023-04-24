@@ -10,68 +10,72 @@
         {{ weekday }}
       </div>
       <button
-        v-for="day in days"
-        class="group p-8 flex flex-col items-center"
+        v-for="day in daysWithAttendanceCounts"
+        class="flex flex-col items-center group px-8 py-12"
         :disabled="day.past"
-        @click="selectedDay = day"
+        @click="selectedDate = day.dateISO"
       >
-        <div
-          class="flex flex-col px-6 pt-2 pb-3 gap-1 rounded-xl transition-all"
+        <h4
+          class="w-12 h-12 mb-4 flex items-center justify-center rounded-xl transition-all"
           :class="{
-            'day-future': !day.today && !day.past,
-            'day-today': day.today,
-            'day-past': day.past,
-            active: selectedDay == day,
+            'calendar-day--disabled': day.past,
+            'calendar-day--enabled': !day.past,
+            'calendar-day--today': day.today,
+            'calendar-day--active': selectedDate == day.dateISO,
           }"
         >
-          <span>
-            {{ day.date.getDate() }}
-          </span>
-          <span
-            v-if="!day.past"
-            class="px-2 border text-sm rounded-full"
-            :class="[
-              day.attendees.length > 0
-                ? 'bg-teal-50 border-teal-500 text-teal-500'
-                : 'bg-indigo-50 border-indigo-500 text-indigo-500',
-            ]"
-            >{{ day.attendees.length }}</span
-          >
-        </div>
+          {{ day.date.getDate() }}
+        </h4>
+        <span
+          v-if="!day.past"
+          class="px-2 border text-sm rounded-full"
+          :class="[
+            day.attendanceCount > 0
+              ? 'bg-teal-50 border-teal-500 text-teal-500'
+              : 'bg-indigo-50 border-indigo-500 text-indigo-500',
+          ]"
+        >
+          {{ day.attendanceCount }}
+          <i v-if="day.cake" class="fa-solid fa-cake-slice ml-1"></i>
+        </span>
       </button>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { CalendarDay } from "@burofreunde/types";
-import { PropType } from "vue";
+const visibleDays = useVisibleDays();
 
-const { days } = defineProps({
-  days: {
-    type: Object as PropType<CalendarDay[]>,
-    required: true,
-  },
-});
+const attendance = useAttendance();
 
-const selectedDay = useSelectedDay();
+const daysWithAttendanceCounts = computed(() =>
+  visibleDays.value.map((d) => {
+    return {
+      ...d,
+      cake: attendance.value.find((a) => a.cake && a.date == d.dateISO),
+      attendanceCount: attendance.value.filter((a) => a.date == d.dateISO)
+        .length,
+    };
+  })
+);
+
+const selectedDate = useSelectedDate();
 </script>
 
 <style>
-.day-future {
+.calendar-day--enabled {
   @apply group-hover:scale-110 group-hover:bg-slate-200 dark:group-hover:bg-slate-500;
 }
 
-.day-today {
-  @apply bg-teal-500 text-slate-50;
-  @apply group-hover:scale-110 group-hover:bg-teal-600 dark:group-hover:bg-teal-600;
-}
-
-.day-past {
+.calendar-day--disabled {
   @apply text-slate-400;
 }
 
-.active {
-  @apply scale-125 group-hover:scale-125;
+.calendar-day--today {
+  @apply text-teal-500 font-semibold;
+}
+
+.calendar-day--active {
+  @apply !text-slate-50 !bg-teal-500 scale-[1.15] group-hover:scale-[1.15];
 }
 </style>

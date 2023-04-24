@@ -24,7 +24,19 @@ export const useUtilities = () => {
     return toDate(date).toISOString().substring(0, 10);
   };
 
+  const debounce = (fn: any, timeout = 500) => {
+    let timer: NodeJS.Timeout;
+
+    return (...args: any) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn.apply(this, args);
+      }, timeout);
+    };
+  };
+
   return {
+    debounce,
     toDate,
     toDEDateString,
     toDEDateTimeString,

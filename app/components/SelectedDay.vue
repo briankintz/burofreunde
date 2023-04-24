@@ -1,26 +1,37 @@
 <template>
   <section>
-    <div v-if="day">
-      <h2 class="px-4 mb-6">
-        {{ day.date.toLocaleDateString("de-DE") }}
-      </h2>
+    <h2 class="px-4 mb-6">
+      {{ toDEDateString(date) }}
+    </h2>
 
-      <div
-        class="flex md:flex-row flex-col-reverse md:items-start lg:gap-x-20 gap-x-12 gap-y-8"
-      >
-        <div class="flex flex-col basis-1/2">
-          <Attendee v-for="attendee of day.attendees" :attendee="attendee" />
-        </div>
+    <div
+      class="flex md:flex-row flex-col-reverse md:items-start lg:gap-x-20 gap-x-12 gap-y-8"
+    >
+      <div class="flex flex-col basis-1/2">
+        <Attendee v-for="attendee of attendees" :attendee="attendee" />
 
-        <UserAttendance class="basis-1/2" />
+        <p
+          v-if="!attendees.length"
+          class="pl-4 text-base md:text-lg italic text-slate-400"
+        >
+          <i class="fa-regular fa-face-sad-tear mr-1"></i>
+          Leider hat sich noch niemand gemeldet
+        </p>
       </div>
-    </div>
-    <div v-else class="text-center text-base md:text-lg italic text-slate-400">
-      Wähle einen Tag aus, um die anwesenden Kollegen zu sehen.
+
+      <UserAttendance class="basis-1/2" />
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-const day = useSelectedDay();
+const { toDEDateString } = useUtilities();
+
+const date = useSelectedDate();
+
+const attendance = useAttendance();
+
+const attendees = computed(() =>
+  attendance.value.filter((a) => a.date == date.value)
+);
 </script>
