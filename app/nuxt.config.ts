@@ -7,6 +7,7 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      title: "Bürofreunde",
       bodyAttrs: {
         class:
           "h-full bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 selection:bg-teal-400 selection:text-slate-700 font-sans font-light lg:text-xl leading-relaxed",

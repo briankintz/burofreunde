@@ -1,4 +1,7 @@
 <template>
+  <Head>
+    <Title>Bürofreunde - Login</Title>
+  </Head>
   <main
     class="min-w-full min-h-screen flex items-center justify-center bg-cover bg-center bg-splash"
   >
