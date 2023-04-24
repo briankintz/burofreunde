@@ -3,24 +3,24 @@
     class="min-w-full min-h-screen flex items-center justify-center bg-cover bg-center bg-splash"
   >
     <div
-      class="p-10 bg-slate-50 rounded-2xl flex flex-col items-center shadow-xl shadow-slate-700/70"
+      class="p-10 bg-slate-50 rounded-2xl flex flex-col items-center shadow-xl shadow-slate-900/70"
     >
-      <div class="max-w-sm">
-        <Logo class="mb-8" />
-        <form class="w-full" @submit.prevent="onSubmit">
-          <div class="mb-3">
-            <label for="email" class="sr-only">Emailadresse</label>
+      <div
+        class="max-w-sm flex flex-col gap-4 text-center md:text-lg text-base"
+      >
+        <Logo class="mb-4" />
+        <form class="flex flex-col gap-8" @submit.prevent="emailLogin($event)">
+          <div class="-space-y-px">
+            <label for="email" class="sr-only">Email</label>
             <input
               id="email"
               name="email"
               type="email"
               autocomplete="email"
               required
-              class="block w-full appearance-none rounded-lg border border-gray-300 px-3 py-4 placeholder-gray-400 shadow-sm focus:border-teal-500 focus:outline-none focus-visible:ring-teal-500"
+              class="relative block w-full rounded-none rounded-t-xl border-0 bg-transparent py-3 text-slate-700 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-teal-500"
               placeholder="Emailadresse"
             />
-          </div>
-          <div class="mb-8">
             <label for="password" class="sr-only">Passwort</label>
             <input
               id="password"
@@ -28,25 +28,22 @@
               type="password"
               autocomplete="current-password"
               required
-              class="block w-full appearance-none rounded-lg border border-gray-300 px-3 py-4 placeholder-gray-400 shadow-sm focus:border-teal-500 focus:outline-none focus-visible:ring-teal-500"
+              class="relative block w-full rounded-none rounded-b-xl border-0 bg-transparent py-3 text-slate-700 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-teal-500"
               placeholder="Passwort"
             />
           </div>
-          <div>
-            <button
-              type="submit"
-              class="flex w-full justify-center rounded-lg border border-transparent bg-teal-500 py-2 px-4 font-medium text-white shadow-sm hover:bg-teal-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2"
-            >
-              Anmelden
-            </button>
-          </div>
+          <ButtonPrimary type="submit"
+            ><i class="fa-solid fa-envelope mr-3"></i>Mit Emailadresse
+            anmelden</ButtonPrimary
+          >
         </form>
-        <div
-          v-if="errorMessage"
-          class="w-full rounded-lg border border-gray-300 border-l-8 border-l-red-600 mt-8 p-3"
+        <ButtonSecondary @click="microsoftLogin()"
+          ><i class="fa-brands fa-microsoft mr-3"></i> Mit Microsoft
+          anmelden</ButtonSecondary
         >
+        <p v-if="errorMessage" class="mt-4 text-rose-500 md:text-base text-sm">
           {{ errorMessage }}
-        </div>
+        </p>
       </div>
     </div>
   </main>
@@ -54,18 +51,30 @@
 
 <script setup lang="ts">
 import { FirebaseError } from "@firebase/util";
-import { signInWithEmailAndPassword } from "firebase/auth";
-
-definePageMeta({
-  layout: "pre-auth",
-});
+import {
+  getRedirectResult,
+  signInWithEmailAndPassword,
+  signInWithRedirect,
+  OAuthProvider,
+} from "firebase/auth";
 
 const { $auth } = useNuxtApp();
-const route = useRoute();
 
 const errorMessage = ref("");
 
-async function onSubmit(event: Event) {
+try {
+  await getRedirectResult($auth);
+} catch (error) {
+  handle(error);
+}
+
+async function microsoftLogin() {
+  const provider = new OAuthProvider("microsoft.com");
+
+  return signInWithRedirect($auth, provider);
+}
+
+async function emailLogin(event: Event) {
   const form = event.target as HTMLFormElement;
 
   const { email, password } = Object.fromEntries(new FormData(form));
@@ -78,20 +87,30 @@ async function onSubmit(event: Event) {
       email.toString(),
       password.toString()
     );
-    await navigateTo(route.query.c?.toString(), { replace: true });
+
+    return navigateTo("/");
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      switch (error.code) {
-        case "auth/user-not-found":
-        case "auth/wrong-password":
-          errorMessage.value = "Emailadresse oder Passwort falsch!";
-          break;
-        default:
-          errorMessage.value = `Anmeldung fehlgeschlagen! (${error.code})`;
-      }
-    } else {
-      errorMessage.value = "Anmeldung fehlgeschlagen!";
+    handle(error);
+  }
+}
+
+function handle(error: any) {
+  console.log({ error });
+
+  if (error instanceof FirebaseError) {
+    switch (error.code) {
+      case "auth/user-not-found":
+      case "auth/wrong-password":
+        errorMessage.value = "Emailadresse oder Passwort falsch!";
+        break;
+      case "auth/internal-error":
+        errorMessage.value = "Emaildomäne nicht erlaubt!";
+        break;
+      default:
+        errorMessage.value = `Anmeldung fehlgeschlagen!`;
     }
+  } else {
+    errorMessage.value = "Anmeldung fehlgeschlagen!";
   }
 }
 </script>
