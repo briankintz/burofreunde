@@ -15,7 +15,7 @@ export const useVisibleDays = () =>
 
     const days: CalendarDay[] = [];
 
-    const today = new Date("2023-04-19");
+    const today = new Date();
     const day = today.getDay();
 
     for (var d = 1; d <= 12; d++) {
