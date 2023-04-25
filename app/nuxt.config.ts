@@ -19,7 +19,7 @@ export default defineNuxtConfig({
           src: "https://kit.fontawesome.com/34fb0cf229.js",
         },
         {
-          textContent:
+          innerHTML:
             '"dark"!==localStorage.theme&&("theme"in localStorage||!window.matchMedia("(prefers-color-scheme: dark)").matches)?document.documentElement.classList.remove("dark"):document.documentElement.classList.add("dark");',
         },
       ],
