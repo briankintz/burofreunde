@@ -1,17 +1,29 @@
 <template>
   <footer
-    class="text-center text-sm lg:text-base w-100 p-8 bg-slate-700 dark:bg-slate-800"
+    class="flex flex-col items-center gap-2 text-sm lg:text-base w-full p-6 bg-slate-700 dark:bg-slate-800"
   >
     <a
       href="https://briankintz.com"
       target="_blank"
-      class="group p-4 text-slate-50 hover:bg-slate-800 dark:hover:bg-slate-900 hover:text-slate-200 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+      class="group px-4 py-2 text-slate-50 hover:bg-slate-800 dark:hover:bg-slate-900 rounded-xl transition-colors"
     >
       Handcrafted with
       <i
-        class="fa-solid fa-heart fa-sm mx-1 text-rose-400 group-hover:text-red-500 group-hover:scale-125"
+        class="fa-solid fa-heart fa-sm mx-1 text-rose-400 group-hover:text-red-500 group-hover:scale-125 transition-all"
       ></i>
       by Brian Kintz</a
     >
+    <a
+      href="https://github.com/briankintz/burofreunde"
+      target="_blank"
+      class="px-4 py-2 text-slate-50 hover:bg-slate-800 dark:hover:bg-slate-900 rounded-xl transition-colors"
+      >{{ config.public.version }} © {{ year }}</a
+    >
   </footer>
 </template>
+
+<script setup lang="ts">
+const config = useRuntimeConfig();
+
+const year = ref(new Date().getFullYear());
+</script>
