@@ -17,7 +17,7 @@
       href="https://github.com/briankintz/burofreunde"
       target="_blank"
       class="px-4 py-2 text-slate-50 hover:bg-slate-800 dark:hover:bg-slate-900 rounded-xl transition-colors"
-      >{{ config.public.version }} © {{ year }}</a
+      >{{ config.public.version.substring(0, 7) }} © {{ year }}</a
     >
   </footer>
 </template>
