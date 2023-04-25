@@ -11,8 +11,16 @@
 <script setup lang="ts">
 const theme = ref(localStorage.theme);
 
+const preference = window.matchMedia("(prefers-color-scheme: dark)").matches
+  ? "dark"
+  : "light";
+
+if (!theme.value) {
+  theme.value = preference;
+}
+
 function toggleTheme() {
-  if (localStorage.theme === "dark") {
+  if (theme.value === "dark") {
     localStorage.theme = "light";
     document.documentElement.classList.remove("dark");
   } else {
