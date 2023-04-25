@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   useFirebaseEmulators: true,
-  version: "CI_COMMIT_SHA",
+  version: process.env.GITHUB_SHA ?? "unbekannt",
   firebase: {
     apiKey: "AIzaSyAH-Pxztgknf1CpeA-xgDgKW1jbCoMnxWA",
     authDomain: "burofreunde.de",
