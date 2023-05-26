@@ -1,11 +1,11 @@
 <template>
   <section>
     <div
-      class="grid grid-cols-5 text-center border dark:border-2 dark:border-slate-300 sm:rounded-xl"
+      class="grid grid-cols-5 text-center border-y sm:border dark:border-y-2 dark:sm:border-2 dark:border-slate-500 sm:rounded-xl"
     >
       <div
         v-for="weekday in ['Mo', 'Di', 'Mi', 'Do', 'Fr']"
-        class="p-3 border-b dark:border-b-2 dark:border-slate-300"
+        class="p-3 border-b dark:border-b-2 dark:border-slate-500"
       >
         {{ weekday }}
       </div>
@@ -32,7 +32,7 @@
           :class="[
             day.attendanceCount > 0
               ? 'bg-teal-50 border-teal-500 text-teal-500 dark:bg-teal-400/10'
-              : 'bg-indigo-50 border-indigo-500 text-indigo-500 dark:bg-indigo-400/10',
+              : 'bg-indigo-50 border-indigo-400 text-indigo-400 dark:bg-indigo-400/10',
           ]"
         >
           {{ day.attendanceCount }}

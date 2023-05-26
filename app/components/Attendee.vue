@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col px-4 py-2 mb-6 space-y-2 border dark:border-2 dark:border-slate-300 sm:rounded-xl"
+    class="flex flex-col px-4 py-2 mb-6 space-y-2 border-y sm:border dark:border-y-2 dark:sm:border-2 dark:border-slate-500 sm:rounded-xl"
   >
     <h3>
       {{ attendee.name }}
