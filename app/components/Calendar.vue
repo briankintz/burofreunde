@@ -28,7 +28,7 @@
         </h4>
         <span
           v-if="!day.past"
-          class="px-2 border text-sm rounded-full"
+          class="px-2 border text-sm rounded-full whitespace-nowrap"
           :class="[
             day.attendanceCount > 0
               ? 'bg-teal-50 border-teal-500 text-teal-500 dark:bg-teal-400/10'
