@@ -9,7 +9,7 @@
 
 <style scoped>
 .logo-base {
-  @apply text-slate-700 dark:text-slate-200;
+  @apply text-slate-700 dark:text-slate-300;
 }
 
 .logo-light .logo-base {
