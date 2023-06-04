@@ -30,7 +30,7 @@ const attendance = useAttendance();
 
 const q = query(
   collection($firestore, "attendance").withConverter(AttendeeConverter),
-  where("date", ">", visibleDays.value.at(0)!.dateISO),
+  where("date", ">=", visibleDays.value.at(0)!.dateISO),
   where("date", "<=", visibleDays.value.at(-1)!.dateISO),
   orderBy("date"),
   orderBy("name")
